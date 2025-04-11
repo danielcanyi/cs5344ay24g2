@@ -6,6 +6,8 @@ SITE_NAME_THEOCCASIONALTRAVELLER = "theoccasionaltraveller"
 DIR_HTML = "data/html"
 DIR_JSON = "data/json"
 DIR_KEY_TERMS = "data/with_key_terms"
+DIR_IMAGES = "data/images"
+
 
 """
 {
