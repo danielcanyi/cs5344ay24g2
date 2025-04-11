@@ -1,0 +1,64 @@
+import json
+import glob
+import os
+from datasketch import MinHash, MinHashLSH
+
+# Function to parse JSON and extract text for shingles
+def extract_text_from_json(json_path):
+    with open(json_path, 'r', encoding='utf-8') as f:
+        data = json.load(f)
+    text = data['title'] + ' '  # Include the title
+    for content_piece in data['content']:
+        if content_piece['type'] in ['text', 'h2', 'h3']:
+            text += content_piece['text'] + ' '
+    return text
+
+# Function to generate shingles (n-grams)
+def generate_shingles(text, n=3):
+    words = text.lower().split()
+    shingles = set()
+    for i in range(len(words) - n + 1):
+        shingle = ' '.join(words[i:i+n])
+        shingles.add(shingle)
+    return shingles
+
+# Create MinHash signature for a document
+def create_minhash(shingles, num_perm=128):
+    minhash = MinHash(num_perm=num_perm)
+    for shingle in shingles:
+        minhash.update(shingle.encode('utf8'))
+    return minhash
+
+# Main function to process JSON files and find similar documents
+def find_similar_documents(json_folder, threshold=0.5, num_perm=128):
+    lsh = MinHashLSH(threshold=threshold, num_perm=num_perm)
+    minhashes = {}
+    
+    # Process each JSON file
+    for json_file in glob.glob(os.path.join(json_folder, '*.json')):
+        doc_name = os.path.basename(json_file)
+        text = extract_text_from_json(json_file)
+        shingles = generate_shingles(text)
+        minhash = create_minhash(shingles, num_perm)
+        minhashes[doc_name] = minhash
+        lsh.insert(doc_name, minhash)
+    
+    # Finding similar document pairs
+    similar_docs = {}
+    for doc_name, minhash in minhashes.items():
+        result = lsh.query(minhash)
+        similar_docs[doc_name] = [r for r in result if r != doc_name]
+    
+    return similar_docs
+
+# Example usage:
+if __name__ == "__main__":
+    json_folder = "./json_files"  # Change to your JSON files directory
+    similar_docs = find_similar_documents(json_folder, threshold=0.6)
+
+    # Print similar documents
+    for doc, similars in similar_docs.items():
+        if similars:
+            print(f"Document '{doc}' is similar to: {', '.join(similars)}")
+        else:
+            print(f"Document '{doc}' has no similar documents.")
