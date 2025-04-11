@@ -58,6 +58,18 @@ Analysis: n=200 seems the sweet spot because at around n=300 some articles start
 - Country / location names are too common across documents and would hence have a low IDF
   - Make a search for location names in text separate from TF.IDF
 
+# Possible issue for Windows 10/11 Pro "FileNotFoundError: [Errno 2] No such file or directory: " 
+
+Windows Long Paths Setup (Windows 10/11 Pro) 
+If you're using Windows 10/11 Pro, you need to enable long paths to handle deep directory structures and long filenames. Follow these steps:
+
+1. Press `Windows + R` to open the Run dialog
+2. Type `gpedit.msc` and press Enter to open the Local Group Policy Editor
+3. Navigate to: `Computer Configuration > Administrative Templates > System > Filesystem`
+4. Find and double-click on `Enable Win32 long paths`
+5. Select `Enabled` and click `OK`
+6. Restart your computer for the changes to take effect
+
 ## TODO:
 - [High] Images:
   - Downloading and transforming
