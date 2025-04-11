@@ -71,7 +71,9 @@ If you're using Windows 10/11 Pro, you need to enable long paths to handle deep 
 6. Restart your computer for the changes to take effect
 
 ## TODO:
-- [High] Images:
+- [High] Presentation PPT
+  - Person in charge tries to understand what everyone's been doing and creates the slides to their understanding
+- [High] Process and Tag Images:
   - Downloading and transforming
   - Tagging with the terms from the same document
     - Or even better, with the terms nearest to its position in the document
