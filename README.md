@@ -122,5 +122,7 @@ If you're using Windows 10/11 Pro, you need to enable long paths to handle deep 
     - https://alvinology.com/
     - https://theoccasionaltraveller.net/
 
+- Country/ City Whitelist : https://github.com/ToniCifre/all-countries-and-cities-json/tree/master
+
 ---
 data will be scraped/generated into `data/`
