@@ -32,6 +32,32 @@ source venv/bin/activate
 python3 key_terms.py
 ```
 
+# Processing and downloading images
+Requires json data with key terms
+```
+source venv/bin/activate
+python3 image_processor.py
+```
+This script will:
+1. Download images from URLs found in JSON files
+2. Save images with unique hashed filenames
+3. Create metadata JSON files containing:
+   - Original URL
+   - Document title
+   - Key terms from the document
+   - Generated filename
+
+# Counting images and folders
+To get statistics about the downloaded images:
+```
+source venv/bin/activate
+python3 count_images.py
+```
+This script provides:
+- Total number of images downloaded
+- Total number of folders created
+- Number of empty folders
+
 # Notes:
 - Articles scraped: `3949`
 ## Terms
