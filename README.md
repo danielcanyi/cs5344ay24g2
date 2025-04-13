@@ -1,5 +1,6 @@
 # cs5344ay24g2
 cs5344 ay 24/25 group 2
+Original proposal: `CS5344 Project_AY24-25_Sem2 for group 2.pdf`
 
 # Setup
 ```
@@ -58,13 +59,19 @@ Analysis: n=200 seems the sweet spot because at around n=300 some articles start
   - Make a search for location names in text separate from TF.IDF
 
 ## TODO:
-- [High] Include specially searched location / country keywords into terms regardless of TF.IDF
-- [High] Frequent Itemsets: find association rules based on terms
-- [High] Images:
+- [High] Presentation PPT
+  - Person in charge tries to understand what everyone's been doing and creates the slides to their understanding
+- [High] Process and Tag Images:
   - Downloading and transforming
   - Tagging with the terms from the same document
     - Or even better, with the terms nearest to its position in the document
-- [Low]Change code to using mapreduce
+- [High] Include specially searched location / country keywords into terms regardless of TF.IDF
+- [High] Frequent Itemsets: discover frequent itemsets
+  - May need to scrape more sites, because each site may only mention one activity once
+- [Medium] Find association rules based on terms, depends on finding Frequent itemsets
+- [Medium] Explore using recommender systems - content-based filtering
+  - If not feasible, investigate and report why
+- [Low] Change code to using mapreduce
 - [Low] Similar documents: Use the minhashing and LSH of terms to find jaccard similarity between documents
 - [Low] Clustering: Use document similarity to do hierarchical clustering
 
