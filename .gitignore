@@ -177,5 +177,6 @@ cython_debug/
 data/html/*/*.html
 data/json/*/*.json
 data/with_key_terms/*.json
+data/travel_site_jsons/*/*/*.json
 data/images/*/*.jpg
 data/images/*/*.json
