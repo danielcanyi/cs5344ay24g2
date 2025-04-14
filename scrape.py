@@ -193,6 +193,39 @@ def _theworldtravelguy_filename_for_detail_page_url(full_url: str) -> str:
     return url_parsed.path.replace("/", "") + ".html"
 
 
+def scrape_asiatours() -> None:
+    URL_BASE = "https://www.asiatours.com/blog/"
+    listings_page = requests.get(URL_BASE)
+    listings_page_soup = BeautifulSoup(
+        listings_page.content, "html.parser")
+
+    # each listing page has snippets of full articles
+    # with a 'Read More' link
+    detail_links = listings_page_soup.find_all(
+        "a", class_="btn-st2")
+    for link in detail_links:
+        detail_page_url = link.get("href")
+        print("[Scraping] {}".format(detail_page_url))
+        filename = _asiatours_filename_for_detail_page_url(
+            detail_page_url)
+        details_page = requests.get(detail_page_url)
+        details_page_soup = BeautifulSoup(
+            details_page.content, "html.parser")
+        _save_scraped_page(
+            constants.SITE_NAME_ASIATOURS,
+            filename, details_page_soup)
+    print("[Scraping] done for asiatours")
+
+
+def _asiatours_filename_for_detail_page_url(full_url: str) -> str:
+    """
+    Example url:
+        https://www.asiatours.com/blog/how-to-get-a-bit-of-everything-in-your-first-asia-tour.html
+    """
+    url_parsed = urllib.parse.urlparse(full_url)
+    return url_parsed.path.replace("blog/", "")
+
+
 def _save_scraped_page(
     domain_name: str, filename: str, soup: BeautifulSoup
 ) -> None:
@@ -214,3 +247,4 @@ if __name__ == "__main__":
     scrape_alvinology()
     scrape_theoccasionaltraveller()
     scrape_theworldtravelguy()
+    scrape_asiatours()

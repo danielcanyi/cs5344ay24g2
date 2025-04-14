@@ -235,6 +235,45 @@ def convert_theworldtravelguy() -> None:
     print("[HTML to JSON] done for theworldtravelguy")
 
 
+def convert_asiatours() -> None:
+    for (slug, soup) in _read_pages(
+        constants.SITE_NAME_ASIATOURS
+    ):
+        print(
+            "[HTML to JSON] {}: {}".format(
+                constants.SITE_NAME_ASIATOURS, slug
+            )
+        )
+        title_h1 = soup.find("h1")
+        title = title_h1.get_text()
+        content_div = soup.find("div", {"class": "paragraph"})
+        content = []
+        for line in content_div.find_all():
+            if line.name == "h2":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H2,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "h3":
+                if line.find("img"):
+                    img = line.find("img")
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_IMG,
+                        constants.DOC_CONTENT_ITEM_KEY_SRC: img.get("src")})
+            elif line.name == "p":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_TEXT,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+        doc = {
+            constants.DOC_KEY_TITLE: title, constants.DOC_KEY_CONTENT: content}
+        _save_json(
+            constants.SITE_NAME_ASIATOURS, slug, doc)
+
+    print("[HTML to JSON] done for asiatours")
+
+
 def _read_pages(domain_name: str) -> Iterable[Tuple[str, BeautifulSoup]]:
     """
     Common function
@@ -281,3 +320,4 @@ if __name__ == "__main__":
     convert_alvinology()
     convert_theoccasionaltraveller()
     convert_theworldtravelguy()
+    convert_asiatours()

@@ -2,6 +2,8 @@ SITE_NAME_TRAVELERFOLIO = "travelerfolio"
 SITE_NAME_THESMARTLOCAL = "thesmartlocal"
 SITE_NAME_ALVINOLOGY = "alvinology"
 SITE_NAME_THEOCCASIONALTRAVELLER = "theoccasionaltraveller"
+SITE_NAME_THEWORLDTRAVELGUY = "theworldtravelguy"
+SITE_NAME_ASIATOURS = "asiatours"
 
 DIR_HTML = "data/html"
 DIR_JSON = "data/json"
