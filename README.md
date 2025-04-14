@@ -60,6 +60,7 @@ This script provides:
 
 # Notes:
 - Articles scraped: `3949`
+- 14 Apr: added 335 articles from theworldtravelguy
 ## Terms
 - 1-shingle, 2-shingle and 3-shingle used for terms
   - Reason: attraction names are sometimes up to 3 words
@@ -121,6 +122,7 @@ If you're using Windows 10/11 Pro, you need to enable long paths to handle deep 
     - https://thesmartlocal.com/
     - https://alvinology.com/
     - https://theoccasionaltraveller.net/
+    - https://theworldtravelguy.com/
 
 - Country/ City Whitelist : https://github.com/ToniCifre/all-countries-and-cities-json/tree/master
 

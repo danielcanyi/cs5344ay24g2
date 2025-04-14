@@ -4,6 +4,7 @@ Sites we want to try to scrape:
     - https://thesmartlocal.com/
     - https://alvinology.com/
     - https://theoccasionaltraveller.net/
+    - https://theworldtravelguy.com/
 """
 import requests
 import urllib
@@ -156,6 +157,42 @@ def _theoccasionaltraveller_filename_for_detail_page_url(full_url: str) -> str:
     return url_parsed.path.replace("/", "") + ".html"
 
 
+def scrape_theworldtravelguy() -> None:
+    URL_BASE = "https://theworldtravelguy.com/blog/page/"
+    for i in range(10):  # 56 listing pages found
+        pagenum = i + 1
+        listings_page_url = URL_BASE + str(pagenum)
+        listings_page = requests.get(listings_page_url)
+        listings_page_soup = BeautifulSoup(
+            listings_page.content, "html.parser")
+
+        # each listing page has snippets of full articles
+        # with a 'Read More' link
+        detail_links = listings_page_soup.find_all(
+            "a", class_="penci-btn-readmore")
+        for link in detail_links:
+            detail_page_url = link.get("href")
+            print("[Scraping] {}".format(detail_page_url))
+            filename = _theworldtravelguy_filename_for_detail_page_url(
+                detail_page_url)
+            details_page = requests.get(detail_page_url)
+            details_page_soup = BeautifulSoup(
+                details_page.content, "html.parser")
+            _save_scraped_page(
+                constants.SITE_NAME_THEWORLDTRAVELGUY,
+                filename, details_page_soup)
+    print("[Scraping] done for theworldtravelguy")
+
+
+def _theworldtravelguy_filename_for_detail_page_url(full_url: str) -> str:
+    """
+    Example url:
+        https://theworldtravelguy.com/antelope-canyon-x/
+    """
+    url_parsed = urllib.parse.urlparse(full_url)
+    return url_parsed.path.replace("/", "") + ".html"
+
+
 def _save_scraped_page(
     domain_name: str, filename: str, soup: BeautifulSoup
 ) -> None:
@@ -176,3 +213,4 @@ if __name__ == "__main__":
     scrape_thesmartlocal()
     scrape_alvinology()
     scrape_theoccasionaltraveller()
+    scrape_theworldtravelguy()

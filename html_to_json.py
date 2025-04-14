@@ -195,6 +195,46 @@ def convert_thesmartlocal() -> None:
     print("[HTML to JSON] done for thesmartlocal")
 
 
+def convert_theworldtravelguy() -> None:
+    for (slug, soup) in _read_pages(
+        constants.SITE_NAME_THEWORLDTRAVELGUY
+    ):
+        print(
+            "[HTML to JSON] {}: {}".format(
+                constants.SITE_NAME_THEWORLDTRAVELGUY, slug
+            )
+        )
+        title_h1 = soup.find(
+            "h1", class_="entry-title")
+        title = title_h1.get_text()
+        content_div = soup.find("div", {"id": "penci-post-entry-inner"})
+        content = []
+        for line in content_div.find_all():
+            if line.name == "h2":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H2,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "div":
+                if line.find("img"):
+                    img = line.find("img")
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_IMG,
+                        constants.DOC_CONTENT_ITEM_KEY_SRC: img.get("src")})
+            elif line.name == "p":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_TEXT,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+        doc = {
+            constants.DOC_KEY_TITLE: title, constants.DOC_KEY_CONTENT: content}
+        _save_json(
+            constants.SITE_NAME_THEWORLDTRAVELGUY, slug, doc)
+
+    print("[HTML to JSON] done for theworldtravelguy")
+
+
 def _read_pages(domain_name: str) -> Iterable[Tuple[str, BeautifulSoup]]:
     """
     Common function
@@ -240,3 +280,4 @@ if __name__ == "__main__":
     convert_thesmartlocal()
     convert_alvinology()
     convert_theoccasionaltraveller()
+    convert_theworldtravelguy()
