@@ -218,7 +218,7 @@ def scrape_asiakingtravel() -> None:
                     lambda full_url: urllib.parse.urlparse(
                         full_url).path.replace("blog/", "")
                 ),
-                site_name=constants.SITE_NAME_ASIATRAVELKING
+                site_name=constants.SITE_NAME_ASIAKINGTRAVEL
             )
     print("[Scraping] done for asiakingtravel")
 
