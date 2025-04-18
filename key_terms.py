@@ -32,6 +32,13 @@ NUM_TOP_TERMS = 200
 _global_term_doc_counts = {}
 _global_idf = {}
 
+WHITELIST_PATH = "data/country_city_whitelist/location_whitelist.txt"
+
+def _load_location_whitelist() -> Set[str]:
+    if not os.path.exists(WHITELIST_PATH):
+        return set()
+    with open(WHITELIST_PATH, "r", encoding="utf-8") as f:
+        return set(line.strip().lower() for line in f if line.strip())
 
 def add_key_terms() -> None:
     doc_index = 0
@@ -76,6 +83,8 @@ def add_key_terms() -> None:
     ) as f:
         _global_idf = json.loads(f.read())
     """
+    # Load location whitelist
+    location_whitelist = _load_location_whitelist()
 
     # Second pass, calculate tf.idf and filter
     for i in range(doc_index):
@@ -96,9 +105,39 @@ def add_key_terms() -> None:
                 term_and_tf_idf.append((term, tf_idf))
             sorted_term_and_tf_idf = sorted(
                 term_and_tf_idf, key=lambda tup: tup[1], reverse=True)
-            key_terms = [
-                term for (term, _) in sorted_term_and_tf_idf[:NUM_TOP_TERMS]]
-            doc[DOC_KEY_KEY_TERMS] = key_terms
+            
+
+            # Select top NUM_TOP_TERMS
+            top_terms = []
+            for j in range(min(NUM_TOP_TERMS, len(sorted_term_and_tf_idf))):
+                top_terms.append(sorted_term_and_tf_idf[j][0])
+
+            # Extract all text from title and content
+            text_blob = doc.get(DOC_KEY_TITLE, "") + " "
+            for para in doc.get(DOC_KEY_CONTENT, []):
+                text_blob += " " + para.get(DOC_CONTENT_ITEM_KEY_TEXT, "")
+
+            # Tokenize and filter location hits
+            text_blob_words = set(_text_to_words(text_blob))
+
+            location_hits = []
+            for word in text_blob_words:
+                if word in location_whitelist:
+                    location_hits.append([word])
+
+            # Combine top_terms + location_hits while deduplicating
+            seen_keys = set()
+            combined_terms = []
+
+            for term in top_terms + location_hits:
+                key = _dict_key_for_term(term)
+                if key not in seen_keys:
+                    seen_keys.add(key)
+                    combined_terms.append(term)
+
+            # Store in document
+            doc[DOC_KEY_KEY_TERMS] = combined_terms
+
             _save_doc(str(curr_filename), doc)
 
         print("[Key Terms] Second pass: Doc {} saved".format(
