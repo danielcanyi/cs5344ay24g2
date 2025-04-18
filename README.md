@@ -59,7 +59,7 @@ This script provides:
 - Number of empty folders
 
 # Notes:
-- Articles scraped: `5549`
+- Usable articles scraped: `5538`
 - 14 Apr: 
   - added 335 articles from theworldtravelguy
   - added 100 articles from asiatours
