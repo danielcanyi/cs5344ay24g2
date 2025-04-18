@@ -25,16 +25,11 @@ def scrape_travelerfolio() -> None:
         # each listing page has snippets of full articles
         # with a 'Read More' link
         detail_links = listings_page_soup.find_all("a", class_="more-link")
-        for link in detail_links:
-            detail_page_url = link.get("href")
-            print("[Scraping] {}".format(detail_page_url))
-            filename = _travelerfolio_filename_for_detail_page_url(
-                detail_page_url)
-            details_page = requests.get(detail_page_url)
-            details_page_soup = BeautifulSoup(
-                details_page.content, "html.parser")
-            _save_scraped_page(
-                constants.SITE_NAME_TRAVELERFOLIO, filename, details_page_soup)
+        _scrape_detail_links(
+            detail_links=detail_links,
+            filename_func=_travelerfolio_filename_for_detail_page_url,
+            site_name=constants.SITE_NAME_TRAVELERFOLIO
+        )
     print("[Scraping] done for travelerfolio")
 
 
@@ -57,16 +52,12 @@ def scrape_thesmartlocal() -> None:
         # with a 'Read More' link
         detail_links = listings_page_soup.find_all(
             "a", class_="link-secondary")
-        for link in detail_links:
-            detail_page_url = link.get("href")
-            print("[Scraping] {}".format(detail_page_url))
-            filename = _travelerfolio_filename_for_detail_page_url(
-                detail_page_url)
-            details_page = requests.get(detail_page_url)
-            details_page_soup = BeautifulSoup(
-                details_page.content, "html.parser")
-            _save_scraped_page(
-                constants.SITE_NAME_THESMARTLOCAL, filename, details_page_soup)
+
+        _scrape_detail_links(
+            detail_links=detail_links,
+            filename_func=_thesmartlocal_filename_for_detail_page_url,
+            site_name=constants.SITE_NAME_THESMARTLOCAL
+        )
     print("[Scraping] done for thesmartlocal")
 
 
@@ -96,17 +87,12 @@ def scrape_alvinology() -> None:
         # with a 'Read More' link, they are hidden in the title
         titles = listings_page_content.find_all(
             "h2", class_="cs-entry__title")
-        for title in titles:
-            link = title.find("a")
-            detail_page_url = link.get("href")
-            print("[Scraping] {}".format(detail_page_url))
-            filename = _alvinology_filename_for_detail_page_url(
-                detail_page_url)
-            details_page = requests.get(detail_page_url)
-            details_page_soup = BeautifulSoup(
-                details_page.content, "html.parser")
-            _save_scraped_page(
-                constants.SITE_NAME_ALVINOLOGY, filename, details_page_soup)
+        detail_links = [title.find("a") for title in titles]
+        _scrape_detail_links(
+            detail_links=detail_links,
+            filename_func=_alvinology_filename_for_detail_page_url,
+            site_name=constants.SITE_NAME_ALVINOLOGY
+        )
     print("[Scraping] done for alvinology")
 
 
@@ -134,17 +120,11 @@ def scrape_theoccasionaltraveller() -> None:
         # with a 'Read More' link
         detail_links = listings_page_soup.find_all(
             "a", class_="button article-read-more")
-        for link in detail_links:
-            detail_page_url = link.get("href")
-            print("[Scraping] {}".format(detail_page_url))
-            filename = _theoccasionaltraveller_filename_for_detail_page_url(
-                detail_page_url)
-            details_page = requests.get(detail_page_url)
-            details_page_soup = BeautifulSoup(
-                details_page.content, "html.parser")
-            _save_scraped_page(
-                constants.SITE_NAME_THEOCCASIONALTRAVELLER,
-                filename, details_page_soup)
+        _scrape_detail_links(
+            detail_links=detail_links,
+            filename_func=_theoccasionaltraveller_filename_for_detail_page_url,
+            site_name=constants.SITE_NAME_THEOCCASIONALTRAVELLER
+        )
     print("[Scraping] done for theoccasionaltraveller")
 
 
@@ -170,17 +150,11 @@ def scrape_theworldtravelguy() -> None:
         # with a 'Read More' link
         detail_links = listings_page_soup.find_all(
             "a", class_="penci-btn-readmore")
-        for link in detail_links:
-            detail_page_url = link.get("href")
-            print("[Scraping] {}".format(detail_page_url))
-            filename = _theworldtravelguy_filename_for_detail_page_url(
-                detail_page_url)
-            details_page = requests.get(detail_page_url)
-            details_page_soup = BeautifulSoup(
-                details_page.content, "html.parser")
-            _save_scraped_page(
-                constants.SITE_NAME_THEWORLDTRAVELGUY,
-                filename, details_page_soup)
+        _scrape_detail_links(
+            detail_links=detail_links,
+            filename_func=_theworldtravelguy_filename_for_detail_page_url,
+            site_name=constants.SITE_NAME_THEWORLDTRAVELGUY
+        )
     print("[Scraping] done for theworldtravelguy")
 
 
@@ -203,17 +177,11 @@ def scrape_asiatours() -> None:
     # with a 'Read More' link
     detail_links = listings_page_soup.find_all(
         "a", class_="btn-st2")
-    for link in detail_links:
-        detail_page_url = link.get("href")
-        print("[Scraping] {}".format(detail_page_url))
-        filename = _asiatours_filename_for_detail_page_url(
-            detail_page_url)
-        details_page = requests.get(detail_page_url)
-        details_page_soup = BeautifulSoup(
-            details_page.content, "html.parser")
-        _save_scraped_page(
-            constants.SITE_NAME_ASIATOURS,
-            filename, details_page_soup)
+    _scrape_detail_links(
+        detail_links=detail_links,
+        filename_func=_asiatours_filename_for_detail_page_url,
+        site_name=constants.SITE_NAME_ASIATOURS
+    )
     print("[Scraping] done for asiatours")
 
 
@@ -224,6 +192,20 @@ def _asiatours_filename_for_detail_page_url(full_url: str) -> str:
     """
     url_parsed = urllib.parse.urlparse(full_url)
     return url_parsed.path.replace("blog/", "")
+
+
+def _scrape_detail_links(detail_links, filename_func, site_name) -> None:
+    for link in detail_links:
+        detail_page_url = link.get("href")
+        print("[Scraping] {}".format(detail_page_url))
+        filename = filename_func(
+            detail_page_url)
+        details_page = requests.get(detail_page_url)
+        details_page_soup = BeautifulSoup(
+            details_page.content, "html.parser")
+        _save_scraped_page(
+            site_name,
+            filename, details_page_soup)
 
 
 def _save_scraped_page(
