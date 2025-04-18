@@ -274,6 +274,197 @@ def convert_asiatours() -> None:
     print("[HTML to JSON] done for asiatours")
 
 
+def convert_asiakingtravel() -> None:
+    SITE_NAME = constants.SITE_NAME_ASIAKINGTRAVEL
+
+    for (slug, soup) in _read_pages(SITE_NAME):
+        print(
+            "[HTML to JSON] {}: {}".format(
+                SITE_NAME, slug
+            )
+        )
+
+        title_h1 = soup.find("h1")
+        title = title_h1.get_text() if title_h1 else ""
+        content = []
+        for content_div in soup.find_all("div", {"class": "_content"}):
+            for line in content_div.find_all():
+                if line.name == "h2":
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_H2,
+                        constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+                elif line.name == "h3":
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_H3,
+                        constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+                elif line.name == "p":
+                    if line.find("img"):
+                        img = line.find("img")
+                        content.append({
+                            constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                                constants.DOC_CONTENT_ITEM_TYPE_IMG,
+                            constants.DOC_CONTENT_ITEM_KEY_SRC:
+                                img.get("src")})
+                    else:
+                        content.append({
+                            constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                                constants.DOC_CONTENT_ITEM_TYPE_TEXT,
+                            constants.DOC_CONTENT_ITEM_KEY_TEXT:
+                                line.get_text()})
+
+        doc = {
+            constants.DOC_KEY_TITLE: title, constants.DOC_KEY_CONTENT: content}
+        _save_json(
+            SITE_NAME, slug, doc)
+
+    print("[HTML to JSON] done for asiakingtravel")
+
+
+def convert_wanderlush() -> None:
+    SITE_NAME = constants.SITE_NAME_WANDERLUSH
+
+    for (slug, soup) in _read_pages(SITE_NAME):
+        print(
+            "[HTML to JSON] {}: {}".format(
+                SITE_NAME, slug
+            )
+        )
+
+        title_h1 = soup.find("h1")
+        title = title_h1.get_text() if title_h1 else ""
+        content_div = soup.find("div", {"class": "entry-content"})
+        content = []
+        for line in content_div.find_all():
+            if line.name == "h2":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H2,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "h3":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H3,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "p":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_TEXT,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "div":
+                if line.find("img"):
+                    img = line.find("img")
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_IMG,
+                        constants.DOC_CONTENT_ITEM_KEY_SRC: img.get("src")})
+
+        doc = {
+            constants.DOC_KEY_TITLE: title, constants.DOC_KEY_CONTENT: content}
+        _save_json(
+            SITE_NAME, slug, doc)
+
+    print("[HTML to JSON] done for wanderlush")
+
+
+def convert_nomadicmatt() -> None:
+    SITE_NAME = constants.SITE_NAME_NOMADICMATT
+
+    for (slug, soup) in _read_pages(SITE_NAME):
+        print(
+            "[HTML to JSON] {}: {}".format(
+                SITE_NAME, slug
+            )
+        )
+
+        title_h1 = soup.find("h1")
+        title = title_h1.get_text() if title_h1 else ""
+        content_div = soup.find("div", {"class": "entry-content"})
+        content = []
+        for line in content_div.find_all():
+            if line.name == "h2":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H2,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "h3":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H3,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "p":
+                if line.find("img"):
+                    img = line.find("img")
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_IMG,
+                        constants.DOC_CONTENT_ITEM_KEY_SRC: img.get("src")})
+                else:
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_TEXT,
+                        constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+
+        doc = {
+            constants.DOC_KEY_TITLE: title, constants.DOC_KEY_CONTENT: content}
+        _save_json(
+            SITE_NAME, slug, doc)
+
+    print("[HTML to JSON] done for nomadicmatt")
+
+
+def convert_asialegend() -> None:
+    SITE_NAME = constants.SITE_NAME_ASIALEGEND
+
+    for (slug, soup) in _read_pages(SITE_NAME):
+        print(
+            "[HTML to JSON] {}: {}".format(
+                SITE_NAME, slug
+            )
+        )
+
+        title_h1 = soup.find("h1")
+        title = title_h1.get_text() if title_h1 else ""
+        content_div = soup.find("div", {"id": "ftwp-postcontent"})
+        content = []
+        for line in content_div.find_all():
+            if line.name == "h2":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H2,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "h3":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_H3,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+            elif line.name == "figure":
+                if line.find("img"):
+                    img = line.find("img")
+                    content.append({
+                        constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                            constants.DOC_CONTENT_ITEM_TYPE_IMG,
+                        constants.DOC_CONTENT_ITEM_KEY_SRC: img.get("src")})
+            elif line.name == "p":
+                content.append({
+                    constants.DOC_CONTENT_ITEM_KEY_TYPE:
+                        constants.DOC_CONTENT_ITEM_TYPE_TEXT,
+                    constants.DOC_CONTENT_ITEM_KEY_TEXT: line.get_text()})
+
+        doc = {
+            constants.DOC_KEY_TITLE: title, constants.DOC_KEY_CONTENT: content}
+        _save_json(
+            SITE_NAME, slug, doc)
+
+    print("[HTML to JSON] done for asialegend")
+
+
+def convert_realisticasia() -> None:
+    # Content is rendered by script - can't parse for now
+    pass
+
+
 def _read_pages(domain_name: str) -> Iterable[Tuple[str, BeautifulSoup]]:
     """
     Common function
@@ -321,3 +512,7 @@ if __name__ == "__main__":
     convert_theoccasionaltraveller()
     convert_theworldtravelguy()
     convert_asiatours()
+    convert_asiakingtravel()
+    convert_wanderlush()
+    convert_nomadicmatt()
+    convert_asialegend()

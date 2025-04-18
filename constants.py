@@ -7,13 +7,15 @@ SITE_NAME_ASIATOURS = "asiatours"
 SITE_NAME_ASIAKINGTRAVEL = "asiakingtravel"
 SITE_NAME_WANDERLUSH = "wanderlush"
 SITE_NAME_NOMADICMATT = "nomadicmatt"
-SITE_NAME_REALISTICASIA = "realisticasia"
 SITE_NAME_ASIALEGEND = "asialegend"
-SITE_NAME_EXPLORIENT = "explorient"
+
+# content rendered by script - can't parse
+SITE_NAME_REALISTICASIA = "realisticasia"
 
 # blocked
 SITE_NAME_THEMARRIEDWANDERERS = "themarriedwanderers"
 SITE_NAME_STUDENTUNIVERSE = "studentuniverse"
+SITE_NAME_EXPLORIENT = "explorient"
 
 COUNTRY_NAMES = [
     "vietnam",

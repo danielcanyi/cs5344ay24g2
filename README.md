@@ -59,10 +59,15 @@ This script provides:
 - Number of empty folders
 
 # Notes:
-- Articles scraped: `3949`
+- Articles scraped: `5549`
 - 14 Apr: 
   - added 335 articles from theworldtravelguy
   - added 100 articles from asiatours
+- 18 Apr:
+  - added 444 articles from asialegend
+  - added 28 articles from nomadicmatt
+  - added 126 articles from wanderlush
+  - added 560 articles from asiakingtravel
 ## Terms
 - 1-shingle, 2-shingle and 3-shingle used for terms
   - Reason: attraction names are sometimes up to 3 words
@@ -126,6 +131,10 @@ If you're using Windows 10/11 Pro, you need to enable long paths to handle deep 
     - https://theoccasionaltraveller.net/
     - https://theworldtravelguy.com/
     - https://www.asiatours.com/
+    - https://www.asiakingtravel.com/
+    - https://wander-lush.org
+    - https://www.nomadicmatt.com/
+    - https://asialegend.travel/
 
 - Country/ City Whitelist : https://github.com/ToniCifre/all-countries-and-cities-json/tree/master
 
