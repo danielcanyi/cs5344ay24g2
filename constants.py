@@ -4,6 +4,31 @@ SITE_NAME_ALVINOLOGY = "alvinology"
 SITE_NAME_THEOCCASIONALTRAVELLER = "theoccasionaltraveller"
 SITE_NAME_THEWORLDTRAVELGUY = "theworldtravelguy"
 SITE_NAME_ASIATOURS = "asiatours"
+SITE_NAME_ASIAKINGTRAVEL = "asiatravelking"
+SITE_NAME_WANDERLUSH = "wanderlush"
+SITE_NAME_NOMADICMATT = "nomadicmatt"
+SITE_NAME_REALISTICASIA = "realisticasia"
+SITE_NAME_ASIALEGEND = "asialegend"
+SITE_NAME_EXPLORIENT = "explorient"
+
+# blocked
+SITE_NAME_THEMARRIEDWANDERERS = "themarriedwanderers"
+SITE_NAME_STUDENTUNIVERSE = "studentuniverse"
+
+COUNTRY_NAMES = [
+    "vietnam",
+    "cambodia",
+    "laos",
+    "thailand",
+    "malaysia",
+    "myanmar",
+    "philippines",
+    "singapore",
+    "indonesia",
+    "taiwan",
+    "japan",
+    "hong-kong"
+]
 
 DIR_HTML = "data/html"
 DIR_JSON = "data/json"
